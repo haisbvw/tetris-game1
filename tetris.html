@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>简易俄罗斯方块</title>
+</head>
+<body>
+<canvas id="game" width="300" height="500"></canvas>
+
+<script>
+// 创建画布（游戏区域）
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+
+// 方块颜色
+const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00'];
+
+// 当前下落的方块
+let currentBlock = {
+    x: 150,  // 水平位置
+    y: 0,    // 垂直位置
+    color: colors[Math.floor(Math.random() * colors.length)] // 随机颜色
+};
+
+// 游戏主循环
+function update() {
+    // 让方块慢慢下落
+    currentBlock.y += 2;
+    
+    // 清空画布
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // 绘制方块
+    ctx.fillStyle = currentBlock.color;
+    ctx.fillRect(currentBlock.x, currentBlock.y, 50, 50);
+    
+    // 到底部时生成新方块
+    if (currentBlock.y > 450) {
+        currentBlock = {
+            x: 150,
+            y: 0,
+            color: colors[Math.floor(Math.random() * colors.length)]
+        };
+    }
+    
+    // 每秒更新60次
+    requestAnimationFrame(update);
+}
+
+// 键盘控制（左右移动）
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') currentBlock.x -= 30;
+    if (e.key === 'ArrowRight') currentBlock.x += 30;
+});
+
+// 开始游戏
+update();
+</script>
+
+</body>
+</html>
